@@ -1,17 +1,15 @@
 package com.example.ecommerce.model;
 
-import org.springframework.stereotype.Component;
 
-@Component
 public class Category {
-    int categoryId;
+    long categoryId;
     String categoryName;
 
-    public int getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 

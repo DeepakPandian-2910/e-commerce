@@ -1,25 +1,31 @@
 package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.Category;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.ecommerce.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class CategoryController {
-    List<Category> categoryList = new ArrayList<>();
+
+    @Autowired
+    private CategoryService categoryService;
 
     @PostMapping("/api/admin/category")
-    public void addCategory (@RequestBody Category category) {
-        categoryList.add(category);
+    public String addCategory (@RequestBody Category category) {
+        categoryService.createCategory(category);
+        return "Category added successfully";
     }
 
     @GetMapping("api/public/categories")
     public  List<Category> getAllCategories() {
-        return categoryList;
+        return categoryService.getAllCategories();
+    }
+
+    @DeleteMapping("api/admin/category/{categoryId}")
+    public String deleteCategory(@PathVariable long categoryId) {
+        return categoryService.deleteCategory(categoryId);
     }
 }
