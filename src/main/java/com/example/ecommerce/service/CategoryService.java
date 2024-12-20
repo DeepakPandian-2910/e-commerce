@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface CategoryService {
-    public List<Category> getAllCategories();
-    public void createCategory(Category category);
-    public String deleteCategory(long categoryId);
+    List<Category> getAllCategories();
+
+    void createCategory(Category category);
+
+    String deleteCategory(long categoryId);
 
     String updateCategory(long categoryId, Category category);
 }
