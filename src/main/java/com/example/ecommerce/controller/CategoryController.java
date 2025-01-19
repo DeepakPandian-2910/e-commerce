@@ -1,5 +1,6 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.config.AppConstants;
 import com.example.ecommerce.exception.ResourceNotFoundException;
 import com.example.ecommerce.model.Category;
 import com.example.ecommerce.payload.CategoryDTO;
@@ -30,10 +31,12 @@ public class CategoryController {
 
     @GetMapping("/public/categories")
     public  ResponseEntity<CategoryResponse> getAllCategories(
-            @RequestParam(name = "pageNumber") int pageNumber,
-            @RequestParam(name = "pageSize") int pageSize)
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) int pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_CATEGORY_BY, required = false) String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_ORDER, required = false) String sortOrder)
     {
-        CategoryResponse categoryList =  categoryService.getAllCategories(pageNumber, pageSize);
+        CategoryResponse categoryList =  categoryService.getAllCategories(pageNumber, pageSize, sortBy, sortOrder);
         return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }
 
