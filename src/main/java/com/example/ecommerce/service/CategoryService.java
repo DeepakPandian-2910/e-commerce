@@ -13,7 +13,7 @@ public interface CategoryService {
 
     CategoryDTO createCategory(CategoryDTO categoryDTO);
 
-    CategoryDTO deleteCategory(long categoryId);
+    CategoryDTO deleteCategory(Long categoryId);
 
-    CategoryDTO updateCategory(long categoryId, CategoryDTO categoryDTO);
+    CategoryDTO updateCategory(Long categoryId, CategoryDTO categoryDTO);
 }
