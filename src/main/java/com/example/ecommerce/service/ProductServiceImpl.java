@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.exception.ApiException;
 import com.example.ecommerce.exception.ResourceNotFoundException;
 import com.example.ecommerce.model.Category;
 import com.example.ecommerce.model.Product;
@@ -38,6 +39,19 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+
+        boolean isProductPresent = false;
+        List<Product> products = category.getProducts();
+        for (Product p : products) {
+            if (p.getProductName().equals(productDTO.getProductName())) {
+                isProductPresent = true;
+                break;
+            }
+        }
+        if (isProductPresent) {
+            throw new ApiException("Product already exists");
+        }
+
         Product product = modelMapper.map(productDTO, Product.class);
         product.setCategory(category);
         product.setImage("default.png");
@@ -50,6 +64,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getAllProducts() {
         List<Product> products = productRepository.findAll();
+        if (products.isEmpty()) {
+            throw new ApiException("No products exists!");
+        }
         List<ProductDTO> productDTOS = products.stream().map(product -> modelMapper.map(product, ProductDTO.class)).toList();
         ProductResponse productResponse = new ProductResponse();
         productResponse.setContent(productDTOS);
